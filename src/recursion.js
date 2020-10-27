@@ -31,17 +31,19 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
-    // for (var i = 0; i < array.length; i++) {
-    //     if (!Array.isArray(array[i])) {
-    //         if (i === array.length - 1) {
-    //             return sum(array);
-    //         } 
-    //     } else {
-    //         return array[i] + arraySum(array[i]);
-    //     }
-    // }
+    if (array.length === 0) {
+        return 0;
+    } 
+        var newArr = [];
+        for (var i = 0; i < array.length; i++) {
+            if (!Array.isArray(array[i])) {
+                newArr = newArr.concat(array[i]);
+            } else {
+              newArr = newArr.concat(arraySum(array[i]));
+            }
+        }
+    return sum(newArr);
 };
-
 // 4. Check if a number is even.
 var isEven = function(n) {
     if (n === 0) {
@@ -70,8 +72,20 @@ var sumBelow = function(n) {
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
+//var newArr = [];
 var range = function(x, y) {
-
+    var result = [];
+    if (x === y - 1 || x === y) {
+      return result;
+    } else if (x === y + 1) {
+        return result;
+    }
+    if (x < y) {
+      result.push(x + 1);
+      return result.concat(range(x + 1, y));
+    } else if (x > y)
+      result.push(x - 1);
+      return result.concat(range(x - 1, y));
 }; 
 
 // 7. Compute the exponent of a number.
@@ -131,30 +145,62 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+    if (y === 0) {
+        return NaN;
+    } 
+    if (x < 0) {
+      return -modulo(-x, y);
+    } 
+    if (y < 0) {
+      return modulo(x, -y);
+    } 
     if (x < y) {
         return x;
-    } else if (y === 0) {
-        return NaN;
-    } else if (x === y) {
-        return 0;
-    } else if (x > 0) {
-        return modulo((x - y), y);
-    } else if (x < 0 && y > 0) {
-        return modulo((x + y), y);
-    } else if (x < 0 && y < 0) {
-        return modulo((x - y), y);
-    }
-};
+    } 
+    return modulo(x - y, y);
+  };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
-
+    if (y === 1) {
+        return x;
+    } else if (x === 1) {
+        return y;
+    }
+    if (x === 0 || y === 0) {
+        return 0;
+    }
+    if (x < 0) {
+        return -multiply(-x, y);
+    } 
+    if (y < 0) {
+        return -multiply(x, -y);
+    }
+      return multiply(x, y - 1) + x;
 };
+
+  
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+    var i = 0;
+    if (y === 0) {
+        return NaN;
+    } else if (x === 0) {
+        return 0;
+    } else if (y === 1) {
+        return x;
+    } else if (x < 0) {
+        return -divide(-x, y);
+    } else if (y < 0) {
+        return -divide(x, -y);
+    } else if (x < y) {
+        return i;
+    } 
+    i++;
+    return divide(x - y, y) + i;
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
