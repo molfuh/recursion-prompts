@@ -315,6 +315,10 @@ var rMap = function(array, callback) {
 // countKeysInObj(obj, 'e') // 2
 var countKeysInObj = function(obj, key) {
     var count = 0;  
+    //basecase 
+    if (Object.keys(obj).length === 0) {
+        return obj;
+    }
   
     for (var current in obj) {
       // console.log(current, key)
@@ -322,7 +326,7 @@ var countKeysInObj = function(obj, key) {
         count++;
       }
       if (typeof(obj[current]) === 'object') {
-        return countKeysInObj(obj[current], key) + count;
+        return countKeysInObj(obj[current], key);
       }
     }
     return count;
@@ -346,6 +350,11 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
+    if (n === 1) {
+        return 1;
+    }
+    var newArr = [];
+    return newArr.concat(fibonacci(n - 2) + fibonacci(n - 1));
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -360,12 +369,23 @@ var nthFibo = function(n) {
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(array) {
-};
+    if (array.length === 0) {
+      return array;
+    }
+    var capital = [];
+    return capital.concat(array[0].toUpperCase(), capitalizeWords(array.slice(1)));
+  };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
 var capitalizeFirst = function(array) {
-};
+    if (array.length === 0) {
+      return array;
+    }
+    var capital = [];
+  
+    return capital.concat(capitalizeFirst(array.split('').shift().toUpperCase() + capitalizeFirst(array.slice(1))));
+  };
 
 // 29. Return the sum of all even numbers in an object containing nested objects.
 // var obj1 = {
