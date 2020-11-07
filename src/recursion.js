@@ -314,23 +314,37 @@ var rMap = function(array, callback) {
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
 var countKeysInObj = function(obj, key) {
-    var count = 0;  
-    //basecase 
-    if (Object.keys(obj).length === 0) {
-        return obj;
+    var count = 0;
+
+    for (var currentKey in obj) {
+        var objKeys = Object.keys(obj);
+        if (objKeys.length === 1) {
+            return count;
+        }
+        if (currentKey === key) {
+            count++;
+        }
+        if (typeof(obj[currentKey]) === 'object') {
+            return countKeysInObj(obj[currentKey], key) + count;
+        }
     }
-  
-    for (var current in obj) {
-      // console.log(current, key)
-      if (current === key) {
-        count++;
-      }
-      if (typeof(obj[current]) === 'object') {
-        return countKeysInObj(obj[current], key);
-      }
-    }
-    return count;
-  };
+    
+    // var inner = function(obj) {
+    //     var currentKeysArr = Object.keys(obj);
+    //     for (var i = 0; i < currentKeysArr.length; i++) {
+    //         if (currentKeysArr[i] === key) {
+    //             count++;
+    //         }
+    //         if (typeof(obj[currentKeysArr[i]]) === 'object') {
+    //             inner(obj[currentKeysArr[i]]);
+    //         } 
+    //     }
+    //     return;
+    // }
+    // inner(obj);
+        
+    //return count;
+};
 
 // 23. Write a function that counts the number of times a value occurs in an object.
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
@@ -350,11 +364,15 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
-    if (n === 1) {
-        return 1;
+    var result = [];
+    if (n < 1) {
+        return null;
+    } else if (n === 1) {
+        return result.concat([0, 1]);
+    } else {
+        var currentArr = fibonacci(n - 1);
+        return result.concat(currentArr, currentArr[currentArr.length - 2] + currentArr[currentArr.length - 1]);
     }
-    var newArr = [];
-    return newArr.concat(fibonacci(n - 2) + fibonacci(n - 1));
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -363,6 +381,15 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+    if (n === 0) {
+        return 0;
+    } else if (n === 1) {
+        return 1;
+    } else if (n < 0) {
+        return null;
+    } else {
+        return nthFibo(n - 2) + nthFibo(n - 1);
+    }
 };
 
 // 27. Given an array of words, return a new array containing each word capitalized.
@@ -402,6 +429,17 @@ var nestedEvenSum = function(obj) {
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+    var result = [];
+
+    if (!Array.isArray(array)) {
+        return array;
+    } else {
+
+        for (var i = 0; i < array.length; i++) {
+            result = result.concat(flatten(array[i]));
+        }
+    }
+    return result;
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
