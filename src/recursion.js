@@ -467,6 +467,22 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+    //create total var
+    var total = 0;
+    //iterate through object
+    for (var current in obj) {
+    //if current value in object is even,
+      if (obj[current] % 2 === 0) {
+        //add to total
+        total = obj[current];
+      } else if (typeof(obj[current]) === 'object') {
+    //if current key has an object for its value
+        total += nestedEvenSum(obj[current]);
+      //call func recursively  
+    //return total var
+      }
+    }
+    return total;
 };
 
 // 30. Flatten an array containing nested arrays.
@@ -488,6 +504,20 @@ var flatten = function(array) {
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {
+    if (obj === undefined) {
+        obj = {};
+    }
+    if (str.length === 0) {
+        return;
+    } else {
+        if (obj[str[0]] === undefined) {
+            obj[str[0]] = 1;
+        } else {
+            obj[str[0]]++;
+        }
+        letterTally(str.slice(1), obj);
+    }
+    return obj;
 };
 
 // 32. Eliminate consecutive duplicates in a list. If the list contains repeated
@@ -496,6 +526,18 @@ var letterTally = function(str, obj) {
 // compress([1,2,2,3,4,4,5,5,5]) // [1,2,3,4,5]
 // compress([1,2,2,3,4,4,2,5,5,5,4,4]) // [1,2,3,4,2,5,4]
 var compress = function(list) {
+    var newArr = [];
+
+    if (list.length === 0) {
+        return list;
+    }
+    compress(list.slice(1));
+    console.log(list);
+
+    if (newArr.indexOf(list[0]) === -1) {
+        newArr = newArr.concat(list[0]);
+    } 
+    return newArr;
 };
 
 // 33. Augment every element in a list with a new value where each element is an array
