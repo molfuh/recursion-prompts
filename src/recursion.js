@@ -313,38 +313,48 @@ var rMap = function(array, callback) {
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
+// var countKeysInObj = function(obj, key) {
+//     var count = 0;
+//     var keysArr = Object.keys(obj);
+//     if (keysArr.indexOf(key) > -1) {
+//         count++;
+//     }
+//     for (var i = 0; i < keysArr.length; i++) {
+//         if (typeof(obj[keysArr[i]]) === 'object') {
+//             count += countKeysInObj(obj[keysArr[i]], key);
+//         }
+//     }
+    
+//     // var inner = function(obj) {
+//     //     var currentKeysArr = Object.keys(obj);
+//     //     for (var i = 0; i < currentKeysArr.length; i++) {
+//     //         if (currentKeysArr[i] === key) {
+//     //             count++;
+//     //         }
+//     //         if (typeof(obj[currentKeysArr[i]]) === 'object') {
+//     //             inner(obj[currentKeysArr[i]]);
+//     //         } 
+//     //     }
+//     //     return;
+//     // }
+//     // inner(obj);
+        
+//     return count;
+// };
+
 var countKeysInObj = function(obj, key) {
     var count = 0;
-
     for (var currentKey in obj) {
-        var objKeys = Object.keys(obj);
-        if (objKeys.length === 1) {
-            return count;
-        }
         if (currentKey === key) {
             count++;
         }
         if (typeof(obj[currentKey]) === 'object') {
-            return countKeysInObj(obj[currentKey], key) + count;
+            count += countKeysInObj(obj[currentKey], key);
         }
     }
-    
-    // var inner = function(obj) {
-    //     var currentKeysArr = Object.keys(obj);
-    //     for (var i = 0; i < currentKeysArr.length; i++) {
-    //         if (currentKeysArr[i] === key) {
-    //             count++;
-    //         }
-    //         if (typeof(obj[currentKeysArr[i]]) === 'object') {
-    //             inner(obj[currentKeysArr[i]]);
-    //         } 
-    //     }
-    //     return;
-    // }
-    // inner(obj);
-        
-    //return count;
+    return count;
 };
+
 
 // 23. Write a function that counts the number of times a value occurs in an object.
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
