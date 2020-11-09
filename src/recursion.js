@@ -528,16 +528,19 @@ var letterTally = function(str, obj) {
 var compress = function(list) {
     var newArr = [];
 
-    if (list.length === 0) {
+    if (list.length === 1) {
         return list;
     }
-    compress(list.slice(1));
-    console.log(list);
+    
+    newArr = newArr.concat(compress(list.slice(-(list.length), -1)));
+    //if item at list[0] is not already in newArr, add it
+    // if (newArr.indexOf(list[list.length - 1]) === -1) {
+    if (newArr[newArr.length - 1] !== list[list.length - 1]) {
+        newArr = newArr.concat(list[list.length - 1]);
+    }
 
-    if (newArr.indexOf(list[0]) === -1) {
-        newArr = newArr.concat(list[0]);
-    } 
     return newArr;
+
 };
 
 // 33. Augment every element in a list with a new value where each element is an array
